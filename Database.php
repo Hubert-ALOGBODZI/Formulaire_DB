@@ -1,6 +1,5 @@
 <?php
 
-
 $name = $_POST["name"];
 $Message = $_POST["Message"];
 $priority = filter_input(INPUT_POST, "priority", FILTER_VALIDATE_INT);
@@ -13,22 +12,25 @@ if( ! $terms) {
 }
 
 $host = "localhost";
-$dbname = "message_db";
+$dbname = "MabaseD";
 $username = "root";
 $password = "";
 
-$conn = mysqli_connect (hostname : $host,
-                username : $username,
-                password : $password,
-                database : $dbname );
+
+$conn = mysqli_connect ("$host","$username", "$password", "$dbname");
+
+
+// $conn = mysqli_connect (hostname : $host,
+//                 username : $username,
+//                 password : $password,
+//                 database : $dbname );
 
             
 if(mysqli_connect_errno()){
-    die("connection error".mysqli_connect_errno());
+    die("connection error: ".mysqli_connect_error());
 }               
 
- 
-$sql = "INSERT INTO     message (name, body, priority, type)
+$sql = "INSERT INTO  mabase (name, body, priority, type)
          VALUES(?,?,?,?)";
 
 
@@ -39,14 +41,12 @@ if( ! mysqli_stmt_prepare($stmt , $sql)) {
 }
 
 
-mysqli_stmt__bind_param($stmt, "ssii",
+mysqli_stmt_bind_param($stmt, "ssii",
                         $name,
-                        $message,
+                        $Message,
                         $priority,
                         $type);
 
 
 mysqli_stmt_execute($stmt);
 echo "Record saved.";   
-
-?>
